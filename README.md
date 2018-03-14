@@ -15,13 +15,17 @@ First is to edit the registration page so it creates an address and adds it to t
 Open up yourwebsite/login/ajax/createuser.php with your favourite text editor and add the registration page code you can find on this github right below line 38 
 
 so right below this :
+```
 echo '<div class="alert alert-success"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>'. $conf['signup_thanks'] .'</div><div id="returnVal" style="di.....
+```
 
 Dont forget to fill in the database credentials.
 
 Next up is the index page: The index page will contain a balance checker and will show the address of the user.
 So go ahead and open up yourwebsite/index.php with a text editor and add the code from index page code on this repository right underneath 
+```
 if (isset($_SESSION['username'])){
+```
 
 Once again dont forget to edit the database credentials.
 So now lets move on to the last page this page will need to be made so create the following file yourwebsite/withdraw.php 
