@@ -27,6 +27,8 @@ Once again dont forget to edit the database credentials.
 So now lets move on to the last page this page will need to be made so create the following file yourwebsite/withdraw.php 
 I created 2 pages for this in this repository 1 with only the wallet code and 1 that you only have to copy and paste into the withdraw.php 
 
+So you can just copy and paste the withraw page for php login from this repository and fill in the credentials.
+After this everythign should work feel free to add suggestions or improvements.
 
 
 
