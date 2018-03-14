@@ -10,3 +10,15 @@ dont forget to change members to prefix_members if you used a prefix during the 
 
 Next up is editing the pages to add wallet functionallity.
 First is to edit the registration page so it creates an address and adds it to the user database.
+
+Open up yourwebsite/login/ajax/createuser.php with your favourite text editor and add the registration page code you can find on this github right below line 38 
+
+so right below this : echo '<div class="alert alert-success"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>'. $conf['signup_thanks'] .'</div><div id="returnVal" style="di.....
+
+DOnt forget to fill in the database credentials.
+
+Next up is the index page:
+
+
+
+
