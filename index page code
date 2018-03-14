@@ -1,0 +1,51 @@
+
+
+//begin mysql
+
+$servername = "localhost";
+$username = "username";
+$password = "pass";
+$dbname = "database";
+
+// Create connection
+$conn = new mysqli($servername, $username, $password, $dbname);
+// Check connection
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+
+$sql = "SELECT username,address FROM strm_members WHERE username='".$_SESSION['username']."' ";
+$result = $conn->query($sql);
+if ($result->num_rows > 0) {
+    // output data of each row
+    while($row = $result->fetch_assoc()) {
+        echo '<img src="picture of coin"></img>';
+        echo "<h3>Your forknotecoin deposit and withdrawal Address: ". $row["address"]. "  </h3>";
+         $address1 = $row["address"];
+        $da8 = array("method" => "getBalance", "params" => array('address' => $address1));
+//$dat = array("method" => "createAddress");
+$da8_string = json_encode($da8);
+
+$kech8 = curl_init('http://localhost:8070/json_rpc');
+curl_setopt($kech8, CURLOPT_CUSTOMREQUEST, "POST");
+curl_setopt($kech8, CURLOPT_POSTFIELDS, $da8_string);
+curl_setopt($kech8, CURLOPT_RETURNTRANSFER, true);
+curl_setopt($kech8, CURLOPT_HTTPHEADER, array(
+    'Content-Type: application/json',
+    'Content-Length: ' . strlen($da8_string))
+);
+
+$result8 = curl_exec($kech8);
+//echo $result8;
+$det8 = json_decode($result8, true);
+$balance = $det8['result']['availableBalance'];
+$normalbalance = $balance / "100000000000";
+
+
+
+
+        }
+} else {
+    echo "0 results";
+}
+
