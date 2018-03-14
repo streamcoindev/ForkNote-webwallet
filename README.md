@@ -1,7 +1,11 @@
 # ForkNote-webwallet
+## word before starting
 If using this please provide credits to me
 Word before hand this is kind of raw code if you encounter any bugs or whatsoever or security flaws within wallet code (not the login system) feel free to contact me at thecryptowriter@gmail.com.
-SO how to get started? You need have a working forknote coin and walletd needs to be running.
+### SO how to get started? 
+* You need have a working forknote coin 
+* walletd needs to be running.
+### The login system we use
 For this i used https://github.com/therecluse26/PHP-Login#postinstall this is the login system i used since its maintained and bugs are being fixed everyday. so you can set that up or use any login system whatsoever.
 After you setup PHP-Login we are going to edit the database:
 
