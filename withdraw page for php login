@@ -22,9 +22,9 @@ if (isset($_SESSION['username']))
 //begin mysql
 
 $servername = "localhost";
-$username = "root";
-$password = "Keepquiet01";
-$dbname = "loins";
+$username = "user";
+$password = "pass";
+$dbname = "database";
 
 // Create connection
 $conn = new mysqli($servername, $username, $password, $dbname);
