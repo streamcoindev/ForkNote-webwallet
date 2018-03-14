@@ -1,0 +1,127 @@
+//begin mysql
+
+$servername = "localhost";
+$username = "root";
+$password = "Keepquiet01";
+$dbname = "loins";
+
+// Create connection
+$conn = new mysqli($servername, $username, $password, $dbname);
+// Check connection
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+
+$sql = "SELECT username,address FROM strm_members WHERE username='".$_SESSION['username']."' ";
+$result = $conn->query($sql);
+if ($result->num_rows > 0) {
+    // output data of each row
+    while($row = $result->fetch_assoc()) {
+	                        $address1 = $row["address"];    
+        $da8 = array("method" => "getBalance", "params" => array('address' => $address1));
+//$dat = array("method" => "createAddress");
+$da8_string = json_encode($da8);
+
+$kech8 = curl_init('http://localhost:8070/json_rpc');
+curl_setopt($kech8, CURLOPT_CUSTOMREQUEST, "POST");
+curl_setopt($kech8, CURLOPT_POSTFIELDS, $da8_string);
+curl_setopt($kech8, CURLOPT_RETURNTRANSFER, true);
+curl_setopt($kech8, CURLOPT_HTTPHEADER, array(
+    'Content-Type: application/json',
+    'Content-Length: ' . strlen($da8_string))
+);
+
+//echo $da8_string;
+$result8 = curl_exec($kech8);
+//echo $result8;
+$det8 = json_decode($result8, true);
+$balance = $det8['result']['availableBalance'];
+$normalbalance = $balance / "100000000000";
+
+                        echo '  <div class="col-lg-2"></div><div class="col-lg-8">
+
+                        <form id="mailform" action="withdraw.php" method="post">
+                        <h3>minimum fee is 0.01</h3>
+                        <label id="amount"> amount:</label><br/>
+                        <input type="text" name="amount"><br/>
+			<label id="fee">Fee:</label><br/>
+                        <input type="text" name="fee"><br/>
+
+                        <label id="receive">Receive address:</label><br/>
+                        <input type="text" name="receive"><br/>
+                        <button class="btn btn-lg btn-primary btn-block" style="margin-top: 26px;" type="submit"  name="save1">Withdraw your StreamCoins!</button>';
+                        echo '<h3> Your current confirmed balance:'; echo $normalbalance; echo '</h3>'; 
+
+                        if ($_SERVER['REQUEST_METHOD'] === 'POST')
+                        {
+
+                                // something posted
+
+                                if (isset($_POST['save1']))
+                                {
+
+                                        // btnDelete
+
+                                        $amountbig = $_POST["amount"];
+                                        $amount = $amountbig * "100000000000";
+                                        $feebig = $_POST["fee"];
+                                        $fee = $feebig * "100000000000";
+					$receive = $_POST["receive"];
+                                        echo $amount;
+                                        echo $receive;
+                                        $address1 = $row["address"];
+                                        echo $address1;
+                                        $da = array(
+                                                "method" => "sendTransaction",
+                                                "params" => array(
+                                                        "anonymity" => 0,
+                                                        "fee" => $fee,
+                                                        "addresses" => array(
+                                                                $address1
+                                                        ) ,
+                                                        "transfers" => array(
+
+
+                                                                array(
+                                                                        "amount" => $amount,
+                                                                        "address" => $receive
+                                                                )
+                                                        )
+                                                )
+                                        );
+
+                                        // $dat = array("method" => "createAddress");
+
+                                        $da_string = json_encode($da, JSON_NUMERIC_CHECK);
+                                        var_dump($da_string);
+                                        $kech2 = curl_init('http://localhost:8070/json_rpc');
+                                        curl_setopt($kech2, CURLOPT_CUSTOMREQUEST, "POST");
+                                        curl_setopt($kech2, CURLOPT_POSTFIELDS, $da_string);
+                                        curl_setopt($kech2, CURLOPT_RETURNTRANSFER, true);
+                                        curl_setopt($kech2, CURLOPT_HTTPHEADER, array(
+                                                'Content-Type: application/json',
+                                                'Content-Length: ' . strlen($da_string)
+                                        ));
+                                        $result2 = curl_exec($kech2);
+
+                                        // var_dump ($result2);
+                                        // echo $result2;
+
+                                        $det1 = json_decode($result2, true);
+                                        $output1 = $det1['result']['transactionHash'];
+                                        $errors = $det1['result']['error'];
+                                        echo '<h3 style="color:blue;">TransactionID:';
+                                        echo $output1;
+                                        echo '</h3>';
+                                        echo '<h3 style="color:red;">';
+                                        echo $errors;
+                                        echo '</h3>';
+                                }
+
+                                else
+                                {
+
+                                        // assume btnSubmit
+
+                                }
+                        }
